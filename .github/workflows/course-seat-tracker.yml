@@ -8,7 +8,7 @@ on:
       - main
   # Schedule the workflow to run every 5 minutes
   schedule:
-    - cron: '*/5 * * * *'
+    - cron: '*/30 * * * *'
   # Allow manual triggering of the workflow
   workflow_dispatch:
 
