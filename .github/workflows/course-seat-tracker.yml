@@ -50,8 +50,8 @@
 #         run: python main.py
 #         id: check-seat
 
-      # Note that if sucess, then it should be no seat available!
-      # It only notifies when the Action fails.
-      - name: No Email for No Seat Availability
-        if: success()
-        run: echo "No seat is available."
+      # # Note that if sucess, then it should be no seat available!
+      # # It only notifies when the Action fails.
+      # - name: No Email for No Seat Availability
+      #   if: success()
+      #   run: echo "No seat is available."
