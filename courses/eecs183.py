@@ -3,9 +3,9 @@ import json
 import sys
 from courses.base_course import BaseCourse
 
-class CS189(BaseCourse):
+class EECS183(BaseCourse):
     def __init__(self):
-        super().__init__("https://classes.berkeley.edu/content/2024-spring-compsci-189-001-lec-001")
+        super().__init__("https://classes.berkeley.edu/content/2025-fall-eecs-183-001-lec-001")
 
     def parse_html(self, html):
         soup = BeautifulSoup(html, 'html.parser')
