@@ -2,8 +2,9 @@ import sys
 import importlib
 
 COURSE_TO_DETECT = [
-    'EECS183',
+    "COMPSCI185",
 ]
+
 
 def check_course_availability(course_name):
     try:
@@ -20,10 +21,13 @@ def check_course_availability(course_name):
     course = course_class()
     return course.check_availability()
 
+
 def main():
     course_names = COURSE_TO_DETECT
     if course_names is None or len(course_names) == 0:
-        print("No courses are waiting to be detected. Consider either adding courses to the list or removing the action.")
+        print(
+            "No courses are waiting to be detected. Consider either adding courses to the list or removing the action."
+        )
         sys.exit(1)
 
     available_courses = []
@@ -42,6 +46,7 @@ def main():
 
     # if any of the courses are available, exit with 1, to make the action fail, to trigger the email notification
     sys.exit(1)
+
 
 if __name__ == "__main__":
     main()
