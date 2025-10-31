@@ -12,29 +12,42 @@ class COMPSCI185(BaseCourse):
 
     def parse_html(self, html):
         soup = BeautifulSoup(html, "html.parser")
-        data_element = soup.find(attrs={"data-enrollment": True})
-        if data_element:
-            return self.extract_data(data_element["data-enrollment"])
-        else:
-            print("Could not find the required element on the page.")
+        stats_div = soup.select_one("div.stats")
+        if not stats_div:
+            print("No stats div found")
             sys.exit(1)
+
+        stats = {}
+        for child in stats_div.find_all("div", recursive=False):
+            label_tag = child.find("strong")
+            if not label_tag:
+                continue
+
+            label = label_tag.get_text(strip=True).rstrip(":").lower()
+            text_after = label_tag.next_sibling
+            if text_after:
+                try:
+                    value = int(text_after.strip())
+                    stats[label] = value
+                except ValueError:
+                    continue
+        return self.extract_data(stats)
 
     def extract_data(self, data_json):
         try:
-            data = json.loads(data_json)
-            waitlisted = (
-                data.get("available", {})
-                .get("enrollmentStatus", {})
-                .get("waitlistedCount", 0)
+            enrolled = stats["enrolled"]
+            waitlisted = stats["waitlisted"]
+            capacity = stats["capacity"]
+            waitlist_max = stats["waitlist_max"]
+
+            available = waitlisted_max - waitlisted > 0
+            message = (
+                f"Enrolled: {enrolled}/{capacity}, "
+                f"Waitlisted: {waitlisted}/{waitlist_max}."
             )
-            max_waitlist = (
-                data.get("available", {})
-                .get("enrollmentStatus", {})
-                .get("maxWaitlist", 0)
-            )
-            available = max_waitlist - waitlisted > 0
-            message = f"{waitlisted} out of {max_waitlist} spots are taken."
+
             return available, message
-        except json.JSONDecodeError as e:
-            print(f"Failed to parse JSON: {e}")
+
+        except KeyError:
+            print("Missing required data")
             sys.exit(1)
