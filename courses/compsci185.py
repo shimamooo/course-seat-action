@@ -33,14 +33,14 @@ class COMPSCI185(BaseCourse):
                     continue
         return self.extract_data(stats)
 
-    def extract_data(self, data_json):
+    def extract_data(self, stats):
         try:
             enrolled = stats["enrolled"]
             waitlisted = stats["waitlisted"]
             capacity = stats["capacity"]
             waitlist_max = stats["waitlist_max"]
 
-            available = waitlisted_max - waitlisted > 0
+            available = waitlist_max - waitlisted > 0
             message = (
                 f"Enrolled: {enrolled}/{capacity}, "
                 f"Waitlisted: {waitlisted}/{waitlist_max}."
